@@ -1,7 +1,9 @@
-import { SceneNode } from "./SceneNode";
+import {SceneNode} from "./SceneNode";
+import {Texture} from "../texture/Texture";
 
 export abstract class Mesh extends SceneNode {
     public color: [number, number, number, number] = [1, 1, 1, 1];
+    public texture?: Texture;
 
     private uploaded = false;
     private vao: WebGLVertexArrayObject | null = null;
@@ -17,7 +19,7 @@ export abstract class Mesh extends SceneNode {
         if (this.uploaded) return;
 
         const vertices = this.getVertices();
-        this.vertexCount = vertices.length / 2;
+        this.vertexCount = vertices.length / 4;   // now 4 floats per vertex
 
         const buffer = gl.createBuffer();
         if (!buffer) throw new Error("Failed to create buffer");
@@ -27,10 +29,14 @@ export abstract class Mesh extends SceneNode {
         const vao = gl.createVertexArray();
         if (!vao) throw new Error("Failed to create VAO");
         gl.bindVertexArray(vao);
-        gl.enableVertexAttribArray(0); // a_position = layout(location = 0)
-        gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-        gl.bindVertexArray(null);
 
+        const stride = 4 * Float32Array.BYTES_PER_ELEMENT; // 16 bytes
+        gl.enableVertexAttribArray(0); // a_position
+        gl.vertexAttribPointer(0, 2, gl.FLOAT, false, stride, 0);
+        gl.enableVertexAttribArray(1); // a_texCoord
+        gl.vertexAttribPointer(1, 2, gl.FLOAT, false, stride, 2 * Float32Array.BYTES_PER_ELEMENT);
+
+        gl.bindVertexArray(null);
         this.vao = vao;
         this.uploaded = true;
     }

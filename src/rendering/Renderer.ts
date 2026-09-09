@@ -1,23 +1,29 @@
-import { hexToRgba } from "../color";
-import { Mat3 } from "../math";
-import { Mesh } from "../graph/Mesh";
-import { SceneNode } from "../graph";
+import {hexToRgba} from "../color";
+import {Mat3} from "../math";
+import {Mesh} from "../graph/Mesh";
+import {SceneNode} from "../graph";
+import {Texture} from "../texture/Texture";
 
 const vert = `#version 300 es
 layout(location = 0) in vec2 a_position;
+layout(location = 1) in vec2 a_texCoord;
 uniform mat3 u_matrix;
+out vec2 v_texCoord;
 void main() {
     vec3 pos = u_matrix * vec3(a_position, 1.0);
     gl_Position = vec4(pos.xy, 0.0, 1.0);
+    v_texCoord = a_texCoord;
 }
 `;
 
 const frag = `#version 300 es
 precision highp float;
+in vec2 v_texCoord;
+uniform sampler2D u_texture;
 uniform vec4 u_color;
 out vec4 outColor;
 void main() {
-    outColor = u_color;
+    outColor = texture(u_texture, v_texCoord) * u_color;
 }
 `;
 
@@ -29,6 +35,7 @@ export class Renderer {
     private readonly program: WebGLProgram;
     private readonly matrixLocation: WebGLUniformLocation | null;
     private readonly colorLocation: WebGLUniformLocation | null;
+    private readonly whiteTexture: WebGLTexture;
 
     constructor(canvas?: HTMLCanvasElement) {
         this.canvas = canvas ?? document.createElement("canvas");
@@ -39,6 +46,16 @@ export class Renderer {
         this.program = createProgram(gl, vert, frag);
         this.matrixLocation = gl.getUniformLocation(this.program, "u_matrix");
         this.colorLocation = gl.getUniformLocation(this.program, "u_color");
+
+        gl.useProgram(this.program);
+        gl.uniform1i(gl.getUniformLocation(this.program, "u_texture"), 0);
+
+        const white = gl.createTexture();
+        if (!white) throw new Error("Failed to create texture");
+        gl.bindTexture(gl.TEXTURE_2D, white);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+            new Uint8Array([255, 255, 255, 255]));
+        this.whiteTexture = white;
     }
 
     render(root: SceneNode): void {
@@ -63,11 +80,25 @@ export class Renderer {
             const gl = this.gl;
             const matrix = projection.multiply(node.worldMatrix);
             node.upload(gl);
+
             gl.uniformMatrix3fv(this.matrixLocation, false, matrix.data);
             gl.uniform4fv(this.colorLocation, node.color);
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, node.texture?.texture ?? this.whiteTexture);
+            gl.uniformMatrix3fv(this.matrixLocation, false, matrix.data);
+            gl.uniform4fv(this.colorLocation, node.color);
+
             node.draw(gl);
         }
         for (const c of node.children) this.drawNode(c, projection);
+    }
+
+    /**
+     * Texture factory
+     * @param url
+     */
+    public loadTexture(url: string): Texture {
+        return new Texture(this.gl, url);
     }
 }
 

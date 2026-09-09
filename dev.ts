@@ -12,5 +12,7 @@ app.renderer.canvas.height = screen.height;
 app.renderer.clearColor = Color.BLACK;
 
 const sprite = new Sprite();
+sprite.texture = app.renderer.loadTexture("/test.png");
+
 sprite.position = new Vector2(100, 100);
 app.root.add(sprite);
