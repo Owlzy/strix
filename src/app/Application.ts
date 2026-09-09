@@ -1,7 +1,10 @@
-export class Application {
-    private readonly gl: WebGL2RenderingContext;
+import {Renderer} from '../rendering';
 
-    constructor(gl: WebGL2RenderingContext) {
-        this.gl = gl;
+export class Application {
+    // public fields
+    public readonly renderer: Renderer;
+
+    constructor(canvas?: HTMLCanvasElement) {
+        this.renderer = new Renderer(canvas);
     }
 }
