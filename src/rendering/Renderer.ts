@@ -1,9 +1,13 @@
 import {hexToRgba} from "../color";
+import {Mat3} from "../math";
+import type {Mesh} from "../graph/Mesh";
 
 const vert = `#version 300 es
-in vec2 a_position;
+layout(location = 0) in vec2 a_position;
+uniform mat3 u_matrix;
 void main() {
-    gl_Position = vec4(a_position, 0.0, 1.0);
+    vec3 pos = u_matrix * vec3(a_position, 1.0);
+    gl_Position = vec4(pos.xy, 0.0, 1.0);
 }
 `;
 
@@ -22,8 +26,8 @@ export class Renderer {
 
     private readonly gl: WebGL2RenderingContext;
     private readonly program: WebGLProgram;
-    private readonly vao: WebGLVertexArrayObject;
-    private readonly vertexCount: number;
+    private readonly matrixLocation: WebGLUniformLocation | null;
+    private readonly colorLocation: WebGLUniformLocation | null;
 
     constructor(canvas?: HTMLCanvasElement) {
         this.canvas = canvas ?? document.createElement('canvas');
@@ -31,38 +35,12 @@ export class Renderer {
         if (!gl) throw new Error('WebGL2 not supported');
         this.gl = gl;
 
-        // --- one-time setup ---
         this.program = createProgram(gl, vert, frag);
-
-        const positions = new Float32Array([
-            0.0, 0.5,
-            -0.5, -0.5,
-            0.5, -0.5,
-        ]);
-        this.vertexCount = positions.length / 2;
-
-        const positionBuffer = gl.createBuffer();
-        if (!positionBuffer) throw new Error('Failed to create buffer');
-        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
-
-        const vao = gl.createVertexArray();
-        if (!vao) throw new Error('Failed to create VAO');
-        this.vao = vao;
-        gl.bindVertexArray(vao);
-
-        const positionLocation = gl.getAttribLocation(this.program, 'a_position');
-        gl.enableVertexAttribArray(positionLocation);
-        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-        gl.useProgram(this.program);
-
-        const colorLocation = gl.getUniformLocation(this.program, 'u_color');
-        gl.uniform4f(colorLocation, 1, 1, 1, 1); // white
-
-        gl.bindVertexArray(null);
+        this.matrixLocation = gl.getUniformLocation(this.program, 'u_matrix');
+        this.colorLocation = gl.getUniformLocation(this.program, 'u_color');
     }
 
-    render() {
+    render(mesh: Mesh): void {
         const gl = this.gl;
 
         gl.viewport(0, 0, this.canvas.width, this.canvas.height);
@@ -75,11 +53,16 @@ export class Renderer {
         }
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-        if (this.program) {
-            gl.useProgram(this.program);
-            gl.bindVertexArray(this.vao);
-            gl.drawArrays(gl.TRIANGLES, 0, this.vertexCount);
-        }
+        gl.useProgram(this.program);
+
+        // pixels -> clip space; rebuilt each frame so it tracks canvas size
+        const projection = Mat3.projection(this.canvas.width, this.canvas.height);
+        const matrix = projection.multiply(mesh.worldMatrix);
+
+        mesh.upload(gl);
+        gl.uniformMatrix3fv(this.matrixLocation, false, matrix.data);
+        gl.uniform4fv(this.colorLocation, mesh.color);
+        mesh.draw(gl);
     }
 }
 

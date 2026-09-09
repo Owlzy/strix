@@ -1,4 +1,6 @@
 import {Renderer} from '../rendering';
+import type {Mesh} from "../graph/Mesh";
+import {Sprite} from "../graph/Sprite";
 
 export class Application {
     // getters / setters
@@ -13,6 +15,8 @@ export class Application {
     private lastTime: number;
     private _deltaTime: number = 0;
 
+    private tempTestMesh: Mesh = new Sprite();
+
     constructor(canvas?: HTMLCanvasElement) {
         this.renderer = new Renderer(canvas);
         this.lastTime = performance.now();
@@ -24,7 +28,7 @@ export class Application {
         this._deltaTime = (time - this.lastTime) / 1000;
         this.lastTime = time;
 
-        this.renderer.render();
+        this.renderer.render(this.tempTestMesh);
         requestAnimationFrame(this.update);
     }
 }

@@ -7,7 +7,7 @@ export class Node {
 
     // private fields
     private localMatrix: Mat3 = new Mat3();
-    private worldMatrix: Mat3 = new Mat3();
+    worldMatrix: Mat3 = new Mat3();
 
     updateTransforms(parentWorld: Mat3): void {
         this.worldMatrix = parentWorld.multiply(this.localMatrix);
