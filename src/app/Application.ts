@@ -1,6 +1,6 @@
-import { Renderer } from "../rendering";
-import { Mat3 } from "../math";
-import { SceneNode } from "../graph";
+import {Renderer} from "../rendering";
+import {Mat3} from "../math";
+import {SceneNode} from "../graph";
 
 export class Application {
     // getters / setters
@@ -11,6 +11,9 @@ export class Application {
     // public fields
     public readonly renderer: Renderer;
     public readonly root: SceneNode = new SceneNode();
+
+    public ticker? = (dt: number) => {
+    };
 
     // private fields
     private lastTime: number;
@@ -29,6 +32,9 @@ export class Application {
 
         this.root.updateTransforms(new Mat3());
         this.renderer.render(this.root);
+
+        if (this.ticker)
+            this.ticker(this._deltaTime);
 
         requestAnimationFrame(this.update);
     };

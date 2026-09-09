@@ -1,6 +1,23 @@
 import {Mat3, Vector2} from "../math";
 
 export class SceneNode {
+    // getters / setters
+    public get x() {
+        return this.position.x;
+    };
+
+    public set x(value) {
+        this.position = new Vector2(value, this.position.y);
+    };
+
+    public get y() {
+        return this.position.y;
+    };
+
+    public set y(value) {
+        this.position = new Vector2(this.position.x, value);
+    };
+
     // public fields
     public position: Vector2 = new Vector2();
     public rotation: number = 0;

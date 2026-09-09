@@ -13,4 +13,5 @@ app.renderer.canvas.height = screen.height;
 app.renderer.clearColor = Color.BLACK;
 
 const game = new GameScene(app);
+app.ticker = (deltaTime) => game.update(deltaTime);
 app.root.add(game);
