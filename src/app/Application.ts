@@ -6,5 +6,11 @@ export class Application {
 
     constructor(canvas?: HTMLCanvasElement) {
         this.renderer = new Renderer(canvas);
+
+        requestAnimationFrame(this.update);
+    }
+
+    public update() {
+        this.renderer.render();
     }
 }
