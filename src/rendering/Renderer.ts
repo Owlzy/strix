@@ -1,6 +1,7 @@
 import {hexToRgba} from "../color";
 import {Mat3} from "../math";
-import type {Mesh} from "../graph/Mesh";
+import {Mesh} from "../graph/Mesh";
+import {Node} from '../graph';
 
 const vert = `#version 300 es
 layout(location = 0) in vec2 a_position;
@@ -40,9 +41,8 @@ export class Renderer {
         this.colorLocation = gl.getUniformLocation(this.program, 'u_color');
     }
 
-    render(mesh: Mesh): void {
+    render(root: Node): void {
         const gl = this.gl;
-
         gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
         if (this.clearColor) {
@@ -54,15 +54,20 @@ export class Renderer {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         gl.useProgram(this.program);
-
-        // pixels -> clip space; rebuilt each frame so it tracks canvas size
         const projection = Mat3.projection(this.canvas.width, this.canvas.height);
-        const matrix = projection.multiply(mesh.worldMatrix);
+        this.drawNode(root, projection);
+    }
 
-        mesh.upload(gl);
-        gl.uniformMatrix3fv(this.matrixLocation, false, matrix.data);
-        gl.uniform4fv(this.colorLocation, mesh.color);
-        mesh.draw(gl);
+    private drawNode(node: Node, projection: Mat3): void {
+        if (node instanceof Mesh) {
+            const gl = this.gl;
+            const matrix = projection.multiply(node.worldMatrix);
+            node.upload(gl);
+            gl.uniformMatrix3fv(this.matrixLocation, false, matrix.data);
+            gl.uniform4fv(this.colorLocation, node.color);
+            node.draw(gl);
+        }
+        for (const c of node.children) this.drawNode(c, projection);
     }
 }
 

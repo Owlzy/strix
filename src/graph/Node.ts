@@ -21,4 +21,8 @@ export class Node {
     getWorldPosition(): Vector2 {
         return this.worldMatrix.getTranslation();
     }
+
+    add(node: Node) {
+        this.children.push(node);
+    }
 }
