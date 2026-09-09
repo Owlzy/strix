@@ -1,5 +1,5 @@
-import {Application} from './src';
-import {Color} from "./src/color";
+import { Application } from "./src";
+import { Color } from "./src/color";
 
 const app = new Application();
 document.body.appendChild(app.renderer.canvas);

@@ -1,4 +1,4 @@
-import {SceneNode} from "./SceneNode";
+import { SceneNode } from "./SceneNode";
 
 export abstract class Mesh extends SceneNode {
     public color: [number, number, number, number] = [1, 1, 1, 1];
@@ -20,14 +20,14 @@ export abstract class Mesh extends SceneNode {
         this.vertexCount = vertices.length / 2;
 
         const buffer = gl.createBuffer();
-        if (!buffer) throw new Error('Failed to create buffer');
+        if (!buffer) throw new Error("Failed to create buffer");
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
         gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
         const vao = gl.createVertexArray();
-        if (!vao) throw new Error('Failed to create VAO');
+        if (!vao) throw new Error("Failed to create VAO");
         gl.bindVertexArray(vao);
-        gl.enableVertexAttribArray(0);                 // a_position = layout(location = 0)
+        gl.enableVertexAttribArray(0); // a_position = layout(location = 0)
         gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
         gl.bindVertexArray(null);
 

@@ -1,4 +1,4 @@
-import {Mat3, Vector2} from "../math";
+import { Mat3, Vector2 } from "../math";
 
 export class SceneNode {
     // public fields

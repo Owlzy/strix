@@ -1,9 +1,9 @@
 export const Color = {
-    RED: '#ff0011',
-    GREEN: '#00ff00',
-    BLUE: '#0000ff',
-    BLACK: '#000000',
-    WHITE: '#ffffff'
+    RED: "#ff0011",
+    GREEN: "#00ff00",
+    BLUE: "#0000ff",
+    BLACK: "#000000",
+    WHITE: "#ffffff",
 } as const;
 
 /**

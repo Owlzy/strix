@@ -1,6 +1,6 @@
-import {Renderer} from '../rendering';
-import {Mat3} from "../math";
-import {SceneNode} from "../graph";
+import { Renderer } from "../rendering";
+import { Mat3 } from "../math";
+import { SceneNode } from "../graph";
 
 export class Application {
     // getters / setters
@@ -31,5 +31,5 @@ export class Application {
         this.renderer.render(this.root);
 
         requestAnimationFrame(this.update);
-    }
+    };
 }

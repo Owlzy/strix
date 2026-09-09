@@ -1,4 +1,4 @@
-import {Vector2} from "./Vector2";
+import { Vector2 } from "./Vector2";
 
 export class Mat3 {
     // 9 elements, COLUMN-MAJOR, because that's the layout WebGL's
@@ -9,11 +9,7 @@ export class Mat3 {
     private readonly _data: Float32Array;
 
     constructor() {
-        this._data = new Float32Array([
-            1, 0, 0,
-            0, 1, 0,
-            0, 0, 1,
-        ]);
+        this._data = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
     }
 
     /**

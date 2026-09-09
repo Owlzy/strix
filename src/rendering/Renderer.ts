@@ -1,7 +1,7 @@
-import {hexToRgba} from "../color";
-import {Mat3} from "../math";
-import {Mesh} from "../graph/Mesh";
-import {SceneNode} from '../graph';
+import { hexToRgba } from "../color";
+import { Mat3 } from "../math";
+import { Mesh } from "../graph/Mesh";
+import { SceneNode } from "../graph";
 
 const vert = `#version 300 es
 layout(location = 0) in vec2 a_position;
@@ -31,14 +31,14 @@ export class Renderer {
     private readonly colorLocation: WebGLUniformLocation | null;
 
     constructor(canvas?: HTMLCanvasElement) {
-        this.canvas = canvas ?? document.createElement('canvas');
-        const gl = this.canvas.getContext('webgl2');
-        if (!gl) throw new Error('WebGL2 not supported');
+        this.canvas = canvas ?? document.createElement("canvas");
+        const gl = this.canvas.getContext("webgl2");
+        if (!gl) throw new Error("WebGL2 not supported");
         this.gl = gl;
 
         this.program = createProgram(gl, vert, frag);
-        this.matrixLocation = gl.getUniformLocation(this.program, 'u_matrix');
-        this.colorLocation = gl.getUniformLocation(this.program, 'u_color');
+        this.matrixLocation = gl.getUniformLocation(this.program, "u_matrix");
+        this.colorLocation = gl.getUniformLocation(this.program, "u_color");
     }
 
     render(root: SceneNode): void {
@@ -73,7 +73,7 @@ export class Renderer {
 
 function compileShader(gl: WebGL2RenderingContext, type: number, source: string): WebGLShader {
     const shader = gl.createShader(type);
-    if (!shader) throw new Error('Failed to create shader');
+    if (!shader) throw new Error("Failed to create shader");
     gl.shaderSource(shader, source);
     gl.compileShader(shader);
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
@@ -84,11 +84,15 @@ function compileShader(gl: WebGL2RenderingContext, type: number, source: string)
     return shader;
 }
 
-function createProgram(gl: WebGL2RenderingContext, vertexSource: string, fragmentSource: string): WebGLProgram {
+function createProgram(
+    gl: WebGL2RenderingContext,
+    vertexSource: string,
+    fragmentSource: string,
+): WebGLProgram {
     const vertexShader = compileShader(gl, gl.VERTEX_SHADER, vertexSource);
     const fragmentShader = compileShader(gl, gl.FRAGMENT_SHADER, fragmentSource);
     const program = gl.createProgram();
-    if (!program) throw new Error('Failed to create program');
+    if (!program) throw new Error("Failed to create program");
     gl.attachShader(program, vertexShader);
     gl.attachShader(program, fragmentShader);
     gl.linkProgram(program);
