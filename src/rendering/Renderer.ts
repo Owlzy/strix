@@ -15,6 +15,8 @@ export class Renderer {
     }
 
     render() {
+        this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
+
         this.gl.clearColor(1, 0, 0, 1);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
     }
