@@ -1,7 +1,7 @@
 import {hexToRgba} from "../color";
 import {Mat3} from "../math";
 import {Mesh} from "../graph/Mesh";
-import {Node} from '../graph';
+import {SceneNode} from '../graph';
 
 const vert = `#version 300 es
 layout(location = 0) in vec2 a_position;
@@ -41,7 +41,7 @@ export class Renderer {
         this.colorLocation = gl.getUniformLocation(this.program, 'u_color');
     }
 
-    render(root: Node): void {
+    render(root: SceneNode): void {
         const gl = this.gl;
         gl.viewport(0, 0, this.canvas.width, this.canvas.height);
 
@@ -58,7 +58,7 @@ export class Renderer {
         this.drawNode(root, projection);
     }
 
-    private drawNode(node: Node, projection: Mat3): void {
+    private drawNode(node: SceneNode, projection: Mat3): void {
         if (node instanceof Mesh) {
             const gl = this.gl;
             const matrix = projection.multiply(node.worldMatrix);

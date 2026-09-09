@@ -1,6 +1,6 @@
-import {Node} from "./Node";
+import {SceneNode} from "./SceneNode";
 
-export abstract class Mesh extends Node {
+export abstract class Mesh extends SceneNode {
     public color: [number, number, number, number] = [1, 1, 1, 1];
 
     private uploaded = false;

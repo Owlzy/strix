@@ -1,6 +1,6 @@
 import {Renderer} from '../rendering';
 import {Mat3} from "../math";
-import {Node} from "../graph";
+import {SceneNode} from "../graph";
 
 export class Application {
     // getters / setters
@@ -10,7 +10,7 @@ export class Application {
 
     // public fields
     public readonly renderer: Renderer;
-    public readonly root: Node = new Node();
+    public readonly root: SceneNode = new SceneNode();
 
     // private fields
     private lastTime: number;

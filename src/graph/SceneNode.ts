@@ -1,9 +1,9 @@
 import {Mat3, Vector2} from "../math";
 
-export class Node {
+export class SceneNode {
     // public fields
     public position: Vector2 = new Vector2();
-    public children: Node[] = [];
+    public children: SceneNode[] = [];
 
     // private fields
     private localMatrix: Mat3 = new Mat3();
@@ -22,7 +22,7 @@ export class Node {
         return this.worldMatrix.getTranslation();
     }
 
-    add(node: Node) {
+    add(node: SceneNode) {
         this.children.push(node);
     }
 }
