@@ -10,7 +10,15 @@ export class Node {
     worldMatrix: Mat3 = new Mat3();
 
     updateTransforms(parentWorld: Mat3): void {
+        this.localMatrix.setTranslation(this.position.x, this.position.y);
         this.worldMatrix = parentWorld.multiply(this.localMatrix);
         for (const c of this.children) c.updateTransforms(this.worldMatrix);
+    }
+
+    /**
+     * Pull the resolved world position back out of the matrix.
+     */
+    getWorldPosition(): Vector2 {
+        return this.worldMatrix.getTranslation();
     }
 }

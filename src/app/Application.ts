@@ -1,6 +1,7 @@
 import {Renderer} from '../rendering';
 import type {Mesh} from "../graph/Mesh";
 import {Sprite} from "../graph/Sprite";
+import {Mat3, Vector2} from "../math";
 
 export class Application {
     // getters / setters
@@ -21,6 +22,8 @@ export class Application {
         this.renderer = new Renderer(canvas);
         this.lastTime = performance.now();
 
+        this.tempTestMesh.position = new Vector2(100, 100);
+
         requestAnimationFrame(this.update);
     }
 
@@ -28,6 +31,7 @@ export class Application {
         this._deltaTime = (time - this.lastTime) / 1000;
         this.lastTime = time;
 
+        this.tempTestMesh.updateTransforms(new Mat3());
         this.renderer.render(this.tempTestMesh);
         requestAnimationFrame(this.update);
     }

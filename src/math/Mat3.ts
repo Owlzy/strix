@@ -1,3 +1,5 @@
+import {Vector2} from "./Vector2";
+
 export class Mat3 {
     // 9 elements, COLUMN-MAJOR, because that's the layout WebGL's
     // uniformMatrix3fv expects. Logical matrix:
@@ -86,5 +88,15 @@ export class Mat3 {
         const m = new Mat3();
         m._data.set([2 / width, 0, 0, 0, -2 / height, 0, -1, 1, 1]);
         return m;
+    }
+
+    setTranslation(x: number, y: number): this {
+        this._data[6] = x;
+        this._data[7] = y;
+        return this;
+    }
+
+    getTranslation(): Vector2 {
+        return new Vector2(this._data[6], this._data[7]);
     }
 }
