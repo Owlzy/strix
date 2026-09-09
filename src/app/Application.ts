@@ -10,7 +10,8 @@ export class Application {
         requestAnimationFrame(this.update);
     }
 
-    private update() {
+    private update = (time: number) => {
         this.renderer.render();
+        requestAnimationFrame(this.update);
     }
 }
