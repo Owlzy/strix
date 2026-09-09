@@ -1,0 +1,30 @@
+{
+  "name": "strix",
+  "version": "1.0.0",
+  "description": "Lightweight WebGL engine written in TypeScript, for games and web apps",
+  "keywords": [
+    "WebGL",
+    "TypeScript",
+    "GLSL",
+    "renderer"
+  ],
+  "homepage": "https://github.com/Owlzy/strix#readme",
+  "bugs": {
+    "url": "https://github.com/Owlzy/strix/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Owlzy/strix.git"
+  },
+  "license": "MIT",
+  "author": "Owain Bell",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2"
+  }
+}

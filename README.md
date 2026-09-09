@@ -1,2 +1,2 @@
 # strix
-Lightweight WebGL renderer written in TypeScript
+Lightweight WebGL engine written in TypeScript, for games and web apps
