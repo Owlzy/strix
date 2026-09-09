@@ -47,6 +47,9 @@ export class Renderer {
         this.matrixLocation = gl.getUniformLocation(this.program, "u_matrix");
         this.colorLocation = gl.getUniformLocation(this.program, "u_color");
 
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
         gl.useProgram(this.program);
         gl.uniform1i(gl.getUniformLocation(this.program, "u_texture"), 0);
 
