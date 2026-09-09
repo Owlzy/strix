@@ -1,7 +1,9 @@
-import {BaseNode} from "./BaseNode";
+import {Vector2} from "../math";
 
-export class Node extends BaseNode {
+export class Node {
+    // public fields
+    public position: Vector2 = new Vector2();
+
     constructor() {
-        super();
     }
 }
