@@ -10,7 +10,7 @@ export class Application {
         requestAnimationFrame(this.update);
     }
 
-    public update() {
+    private update() {
         this.renderer.render();
     }
 }

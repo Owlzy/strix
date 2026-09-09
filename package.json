@@ -21,7 +21,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "tsc && vite",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "typescript": "^6.0.3",
