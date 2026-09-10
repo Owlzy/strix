@@ -1,7 +1,5 @@
 import {Application} from "./src";
 import {Color} from "./src/color";
-import {Sprite} from "./src/graph/Sprite";
-import {Vector2} from "./src/math";
 import {GameScene} from "./sample/scenes/GameScene";
 
 const app = new Application();
