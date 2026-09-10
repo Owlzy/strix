@@ -15,7 +15,6 @@
 
         // Stricter Typechecking Options
         "noUncheckedIndexedAccess": false,
-        "exactOptionalPropertyTypes": true,
 
         // Style Options
         "noImplicitReturns": true,
