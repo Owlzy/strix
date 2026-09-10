@@ -98,7 +98,7 @@ interface Asteroid {
     velocity: Vector2;
 }
 
-export class Keyboard {
+class Keyboard {
     private readonly pressed = new Set<string>();
 
     constructor() {
