@@ -1,14 +1,17 @@
 import {Mesh} from "./Mesh";
 import {Mat3, Vector2} from "../math";
+import {Texture} from "../texture";
 
 export class Sprite extends Mesh {
     public anchor: Vector2 = new Vector2();
+    public width: number;
+    public height: number;
 
-    constructor(
-        public width: number = 100,
-        public height: number = 100,
-    ) {
+    constructor(texture?: Texture, width?: number, height?: number) {
         super();
+        this.texture = texture;
+        this.width = width ?? texture?.width ?? 100;
+        this.height = height ?? texture?.height ?? 100;
     }
 
     protected getVertices(): Float32Array {

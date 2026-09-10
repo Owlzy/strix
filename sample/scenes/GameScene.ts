@@ -9,8 +9,7 @@ export class GameScene extends Scene {
     constructor(app: Application) {
         super(app);
 
-        this.player = new Sprite();
-        this.player.texture = this.app.assets.get("player");
+        this.player = new Sprite(this.app.assets.get("player"));
         this.player.x = 100;
         this.player.y = 100;
         this.player.anchor = new Vector2();

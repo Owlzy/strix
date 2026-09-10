@@ -1,5 +1,5 @@
 import {SceneNode} from "./SceneNode";
-import {Texture} from "../texture/Texture";
+import {Texture} from "../texture";
 
 export abstract class Mesh extends SceneNode {
     public color: [number, number, number, number] = [1, 1, 1, 1];
