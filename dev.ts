@@ -12,6 +12,10 @@ app.renderer.canvas.height = window.innerHeight;
 
 app.renderer.clearColor = Color.BLACK;
 
+await app.assets.load({
+    player: "/test.png",
+});
+
 const game = new GameScene(app);
 app.ticker = (deltaTime) => game.update(deltaTime);
 app.root.add(game);

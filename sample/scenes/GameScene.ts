@@ -1,6 +1,7 @@
 import {Scene} from "./Scene";
 import {Application} from "../../src";
 import {Sprite} from "../../src/graph/Sprite";
+import {Vector2} from "../../src/math";
 
 export class GameScene extends Scene {
     private player: Sprite;
@@ -9,9 +10,10 @@ export class GameScene extends Scene {
         super(app);
 
         this.player = new Sprite();
-        this.player.texture = this.app.renderer.loadTexture("/test.png");
+        this.player.texture = this.app.assets.get("player");
         this.player.x = 100;
         this.player.y = 100;
+        this.player.anchor = new Vector2();
         this.add(this.player);
     }
 

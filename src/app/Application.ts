@@ -1,6 +1,7 @@
 import {Renderer} from "../rendering";
 import {Mat3} from "../math";
 import {SceneNode} from "../graph";
+import {Assets} from "./Assets";
 
 export class Application {
     // getters / setters
@@ -11,6 +12,7 @@ export class Application {
     // public fields
     public readonly renderer: Renderer;
     public readonly root: SceneNode = new SceneNode();
+    public readonly assets: Assets;
 
     public ticker? = (dt: number) => {
     };
@@ -21,6 +23,7 @@ export class Application {
 
     constructor(canvas?: HTMLCanvasElement) {
         this.renderer = new Renderer(canvas);
+        this.assets = new Assets(this.renderer);
         this.lastTime = performance.now();
 
         requestAnimationFrame(this.update);

@@ -24,6 +24,7 @@ uniform vec4 u_color;
 out vec4 outColor;
 void main() {
     outColor = texture(u_texture, v_texCoord) * u_color;
+    //outColor = vec4(1.0, 0.0, 0.0, 1.0);
 }
 `;
 
