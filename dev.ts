@@ -7,8 +7,8 @@ import {GameScene} from "./sample/scenes/GameScene";
 const app = new Application();
 document.body.appendChild(app.renderer.canvas);
 
-app.renderer.canvas.width = screen.width;
-app.renderer.canvas.height = screen.height;
+app.renderer.canvas.width = window.innerWidth;
+app.renderer.canvas.height = window.innerHeight;
 
 app.renderer.clearColor = Color.BLACK;
 
