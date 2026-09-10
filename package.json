@@ -19,10 +19,20 @@
     "license": "MIT",
     "author": "Owain Bell",
     "type": "module",
-    "main": "index.js",
+    "main": "./dist/strix.umd.cjs",
+    "module": "./dist/strix.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/strix.js",
+            "require": "./dist/strix.umd.cjs"
+        }
+    },
+    "files": ["dist"],
     "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite",
+        "dev": "vite serve sample",
+        "build": "tsc && vite build",
         "typecheck": "tsc --noEmit",
         "format": "prettier --write .",
         "format:check": "prettier --check ."
@@ -30,6 +40,7 @@
     "devDependencies": {
         "prettier": "^3.9.6",
         "typescript": "^6.0.3",
-        "vite": "^8.2.2"
+        "vite": "^8.2.2",
+        "vite-plugin-dts": "^5.1.0"
     }
 }
