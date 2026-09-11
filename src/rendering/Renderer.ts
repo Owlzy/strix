@@ -93,6 +93,8 @@ export class Renderer implements Disposable {
     }
 
     private drawNode(node: SceneNode, projection: Matrix3): void {
+        if (!node.visible) return;
+
         if (node instanceof Mesh) {
             const gl = this.gl;
             const matrix = projection.multiply(node.worldMatrix);

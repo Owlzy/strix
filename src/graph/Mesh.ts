@@ -7,7 +7,7 @@ export abstract class Mesh extends SceneNode {
 
     private uploaded = false;
     private vao: WebGLVertexArrayObject | null = null;
-    private buffer: WebGLBuffer | null = null;        // keep it or we can never free it
+    private buffer: WebGLBuffer | null = null; // keep it or we can never free it
     private vertexCount = 0;
     private gl: WebGL2RenderingContext | null = null; // needed at disposal time
 
@@ -21,7 +21,7 @@ export abstract class Mesh extends SceneNode {
 
         const buffer = gl.createBuffer();
         if (!buffer) throw new Error("Failed to create buffer");
-        this.buffer = buffer;                          // <- the line that was missing
+        this.buffer = buffer; // <- the line that was missing
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
         gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 

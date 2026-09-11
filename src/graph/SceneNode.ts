@@ -2,20 +2,34 @@ import { Matrix3, Vector2 } from "../math";
 import type { Disposable } from "../core/Disposable";
 
 export class SceneNode implements Disposable {
-    public get x() { return this.position.x; }
-    public set x(value) { this.position = new Vector2(value, this.position.y); }
-    public get y() { return this.position.y; }
-    public set y(value) { this.position = new Vector2(this.position.x, value); }
+    public get x() {
+        return this.position.x;
+    }
+
+    public set x(value) {
+        this.position = new Vector2(value, this.position.y);
+    }
+
+    public get y() {
+        return this.position.y;
+    }
+
+    public set y(value) {
+        this.position = new Vector2(this.position.x, value);
+    }
 
     public position: Vector2 = new Vector2();
     public rotation: number = 0;
     public scale: Vector2 = new Vector2(1, 1);
+    public visible: boolean = true;
 
     // readonly reference, mutable contents — the same distinction as `velocity`.
     public readonly children: SceneNode[] = [];
 
     private _parent: SceneNode | null = null;
-    public get parent(): SceneNode | null { return this._parent; }
+    public get parent(): SceneNode | null {
+        return this._parent;
+    }
 
     public localMatrix: Matrix3 = new Matrix3();
     public worldMatrix: Matrix3 = new Matrix3();
@@ -35,7 +49,7 @@ export class SceneNode implements Disposable {
     }
 
     add(node: SceneNode): void {
-        node._parent?.remove(node);   // a node lives in exactly one tree
+        node._parent?.remove(node); // a node lives in exactly one tree
         node._parent = this;
         this.children.push(node);
     }
@@ -59,7 +73,7 @@ export class SceneNode implements Disposable {
         }
         this.children.length = 0;
 
-        this.onDispose();           // subclasses free their own resources here
+        this.onDispose(); // subclasses free their own resources here
         this._parent?.remove(this); // only the node you called dispose() on has a live parent to leave
     }
 
