@@ -104,8 +104,6 @@ export class Renderer implements Disposable {
             gl.uniform4fv(this.colorLocation, node.color);
             gl.activeTexture(gl.TEXTURE0);
             gl.bindTexture(gl.TEXTURE_2D, node.texture?.texture ?? this.whiteTexture);
-            gl.uniformMatrix3fv(this.matrixLocation, false, matrix.data);
-            gl.uniform4fv(this.colorLocation, node.color);
 
             node.draw(gl);
         }
