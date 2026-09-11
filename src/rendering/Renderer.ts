@@ -1,8 +1,10 @@
-import {hexToRgba} from "../color";
-import {Matrix3} from "../math";
-import {Mesh} from "../graph/Mesh";
-import {SceneNode} from "../graph";
-import {Texture} from "../texture/Texture";
+import { hexToRgba } from "../color";
+import { Matrix3 } from "../math";
+import { Mesh } from "../graph/Mesh";
+import { Texture } from "../texture";
+
+import type { SceneNode } from "../graph";
+import type { Disposable } from "../core/Disposable";
 
 const vert = `#version 300 es
 layout(location = 0) in vec2 a_position;
@@ -28,9 +30,11 @@ void main() {
 }
 `;
 
-export class Renderer {
+export class Renderer implements Disposable {
     public readonly canvas: HTMLCanvasElement;
     public clearColor?: string;
+
+    private disposed = false;
 
     private readonly gl: WebGL2RenderingContext;
     private readonly program: WebGLProgram;
@@ -57,8 +61,17 @@ export class Renderer {
         const white = gl.createTexture();
         if (!white) throw new Error("Failed to create texture");
         gl.bindTexture(gl.TEXTURE_2D, white);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-            new Uint8Array([255, 255, 255, 255]));
+        gl.texImage2D(
+            gl.TEXTURE_2D,
+            0,
+            gl.RGBA,
+            1,
+            1,
+            0,
+            gl.RGBA,
+            gl.UNSIGNED_BYTE,
+            new Uint8Array([255, 255, 255, 255]),
+        );
         this.whiteTexture = white;
     }
 
@@ -104,6 +117,13 @@ export class Renderer {
     public loadTexture(url: string): Texture {
         return new Texture(this.gl, url);
     }
+
+    dispose(): void {
+        if (this.disposed) return;
+        this.disposed = true;
+        this.gl.deleteProgram(this.program);
+        this.gl.deleteTexture(this.whiteTexture);
+    }
 }
 
 function compileShader(gl: WebGL2RenderingContext, type: number, source: string): WebGLShader {
@@ -136,5 +156,9 @@ function createProgram(
         gl.deleteProgram(program);
         throw new Error(`Program link failed: ${log}`);
     }
+    gl.detachShader(program, vertexShader);
+    gl.detachShader(program, fragmentShader);
+    gl.deleteShader(vertexShader);
+    gl.deleteShader(fragmentShader);
     return program;
 }
