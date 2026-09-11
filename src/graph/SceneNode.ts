@@ -6,16 +6,16 @@ export class SceneNode implements Disposable {
         return this.position.x;
     }
 
-    public set x(value) {
-        this.position = new Vector2(value, this.position.y);
+    set x(value) {
+        this.position.x = value;
     }
 
     public get y() {
         return this.position.y;
     }
 
-    public set y(value) {
-        this.position = new Vector2(this.position.x, value);
+    set y(value) {
+        this.position.y = value;
     }
 
     public position: Vector2 = new Vector2();
