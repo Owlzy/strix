@@ -1,5 +1,5 @@
 import {Mesh} from "./Mesh";
-import {Mat3, Vector2} from "../math";
+import {Matrix3, Vector2} from "../math";
 import {Texture} from "../texture";
 
 export class Sprite extends Mesh {
@@ -29,11 +29,11 @@ export class Sprite extends Mesh {
         ]);
     }
 
-    override updateTransforms(parentWorld: Mat3): void {
-        this.localMatrix = Mat3.translation(this.position.x, this.position.y)
-            .multiply(Mat3.rotation(this.rotation))
-            .multiply(Mat3.scaling(this.scale.x, this.scale.y))
-            .multiply(Mat3.translation(-this.anchor.x * this.width, -this.anchor.y * this.height));
+    override updateTransforms(parentWorld: Matrix3): void {
+        this.localMatrix = Matrix3.translation(this.position.x, this.position.y)
+            .multiply(Matrix3.rotation(this.rotation))
+            .multiply(Matrix3.scaling(this.scale.x, this.scale.y))
+            .multiply(Matrix3.translation(-this.anchor.x * this.width, -this.anchor.y * this.height));
 
         this.worldMatrix = parentWorld.multiply(this.localMatrix);
         for (const c of this.children) c.updateTransforms(this.worldMatrix);

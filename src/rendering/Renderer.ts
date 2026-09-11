@@ -1,5 +1,5 @@
 import {hexToRgba} from "../color";
-import {Mat3} from "../math";
+import {Matrix3} from "../math";
 import {Mesh} from "../graph/Mesh";
 import {SceneNode} from "../graph";
 import {Texture} from "../texture/Texture";
@@ -75,11 +75,11 @@ export class Renderer {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         gl.useProgram(this.program);
-        const projection = Mat3.projection(this.canvas.width, this.canvas.height);
+        const projection = Matrix3.projection(this.canvas.width, this.canvas.height);
         this.drawNode(root, projection);
     }
 
-    private drawNode(node: SceneNode, projection: Mat3): void {
+    private drawNode(node: SceneNode, projection: Matrix3): void {
         if (node instanceof Mesh) {
             const gl = this.gl;
             const matrix = projection.multiply(node.worldMatrix);

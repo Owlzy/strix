@@ -1,5 +1,5 @@
 import {Renderer} from "../rendering";
-import {Mat3} from "../math";
+import {Matrix3} from "../math";
 import {SceneNode} from "../graph";
 import {Assets} from "./Assets";
 
@@ -33,7 +33,7 @@ export class Application {
         this._deltaTime = (time - this.lastTime) / 1000;
         this.lastTime = time;
 
-        this.root.updateTransforms(new Mat3());
+        this.root.updateTransforms(new Matrix3());
         this.renderer.render(this.root);
 
         if (this.ticker)

@@ -1,6 +1,6 @@
 import { Vector2 } from "./Vector2";
 
-export class Mat3 {
+export class Matrix3 {
     // 9 elements, COLUMN-MAJOR, because that's the layout WebGL's
     // uniformMatrix3fv expects. Logical matrix:
     //   | a  c  tx |        stored as:
@@ -24,8 +24,8 @@ export class Mat3 {
         return this;
     }
 
-    clone(): Mat3 {
-        const m = new Mat3();
+    clone(): Matrix3 {
+        const m = new Matrix3();
         m._data.set(this._data);
         return m;
     }
@@ -34,11 +34,11 @@ export class Mat3 {
      * Returns a NEW matrix equal to (this * other).
      * @param other
      */
-    multiply(other: Mat3): Mat3 {
+    multiply(other: Matrix3): Matrix3 {
         const [a0, a1, a2, a3, a4, a5, a6, a7, a8] = this._data;
         const [b0, b1, b2, b3, b4, b5, b6, b7, b8] = other._data;
 
-        const m = new Mat3();
+        const m = new Matrix3();
         m._data.set([
             a0 * b0 + a3 * b1 + a6 * b2,
             a1 * b0 + a4 * b1 + a7 * b2,
@@ -55,22 +55,22 @@ export class Mat3 {
         return m;
     }
 
-    static translation(x: number, y: number): Mat3 {
-        const m = new Mat3();
+    static translation(x: number, y: number): Matrix3 {
+        const m = new Matrix3();
         m._data.set([1, 0, 0, 0, 1, 0, x, y, 1]);
         return m;
     }
 
-    static rotation(radians: number): Mat3 {
+    static rotation(radians: number): Matrix3 {
         const c = Math.cos(radians);
         const s = Math.sin(radians);
-        const m = new Mat3();
+        const m = new Matrix3();
         m._data.set([c, s, 0, -s, c, 0, 0, 0, 1]);
         return m;
     }
 
-    static scaling(x: number, y: number): Mat3 {
-        const m = new Mat3();
+    static scaling(x: number, y: number): Matrix3 {
+        const m = new Matrix3();
         m._data.set([x, 0, 0, 0, y, 0, 0, 0, 1]);
         return m;
     }
@@ -80,8 +80,8 @@ export class Mat3 {
      * @param width
      * @param height
      */
-    static projection(width: number, height: number): Mat3 {
-        const m = new Mat3();
+    static projection(width: number, height: number): Matrix3 {
+        const m = new Matrix3();
         m._data.set([2 / width, 0, 0, 0, -2 / height, 0, -1, 1, 1]);
         return m;
     }

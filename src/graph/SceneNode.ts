@@ -1,4 +1,4 @@
-import {Mat3, Vector2} from "../math";
+import {Matrix3, Vector2} from "../math";
 
 export class SceneNode {
     // getters / setters
@@ -26,13 +26,13 @@ export class SceneNode {
     public children: SceneNode[] = [];
 
     // private fields
-    public localMatrix: Mat3 = new Mat3();
-    public worldMatrix: Mat3 = new Mat3();
+    public localMatrix: Matrix3 = new Matrix3();
+    public worldMatrix: Matrix3 = new Matrix3();
 
-    updateTransforms(parentWorld: Mat3): void {
-        this.localMatrix = Mat3.translation(this.position.x, this.position.y)
-            .multiply(Mat3.rotation(this.rotation))
-            .multiply(Mat3.scaling(this.scale.x, this.scale.y));
+    updateTransforms(parentWorld: Matrix3): void {
+        this.localMatrix = Matrix3.translation(this.position.x, this.position.y)
+            .multiply(Matrix3.rotation(this.rotation))
+            .multiply(Matrix3.scaling(this.scale.x, this.scale.y));
 
         this.worldMatrix = parentWorld.multiply(this.localMatrix);
         for (const c of this.children) c.updateTransforms(this.worldMatrix);
