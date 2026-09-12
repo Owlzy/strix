@@ -4,6 +4,12 @@ import type {TextureView} from "../texture";
 export abstract class Mesh extends SceneNode {
     public color: [number, number, number, number] = [1, 1, 1, 1];
 
+    /**
+     * Renderer hands gl in at draw time for nodes that build/refresh GPU resources.
+     * @param _gl
+     */
+    prepare(_gl: WebGL2RenderingContext): void {}
+
     get texture(): TextureView | undefined {
         return this._texture;
     }

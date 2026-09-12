@@ -102,15 +102,19 @@ export class Renderer implements Disposable {
         this.batcher.flush();
     }
 
+    /**
+     * @param node
+     * @private
+     */
     private drawNode(node: SceneNode): void {
         if (!node.visible) return;
         if (node instanceof Mesh) {
+            node.prepare(this.gl); // no-op for normal meshes, is only for text rendering
             const tex = node.texture?.source ?? this.whiteTexture;
             this.batcher.draw(tex, node.worldMatrix.data, node.localVertices, node.color);
         }
         for (const c of node.children) this.drawNode(c);
     }
-
     /**
      * Texture factory
      * @param url
