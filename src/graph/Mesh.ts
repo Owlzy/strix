@@ -3,7 +3,18 @@ import type {TextureView} from "../texture";
 
 export abstract class Mesh extends SceneNode {
     public color: [number, number, number, number] = [1, 1, 1, 1];
-    public texture?: TextureView;
+
+    get texture(): TextureView | undefined {
+        return this._texture;
+    }
+
+    set texture(value: TextureView | undefined) {
+        if (value === this._texture) return;
+        this._texture = value;
+        this.invalidate();
+    }
+
+    private _texture?: TextureView;
 
     private uploaded = false;
     private vao: WebGLVertexArrayObject | null = null;
