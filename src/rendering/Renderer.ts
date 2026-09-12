@@ -5,28 +5,31 @@ import { Texture } from "../texture";
 
 import type { SceneNode } from "../graph";
 import type { Disposable } from "../core/Disposable";
+import { Batcher } from "./Batcher";
 
 const vert = `#version 300 es
+// vertex: a_position is now WORLD space; u_matrix is projection only (set once per frame)
 layout(location = 0) in vec2 a_position;
 layout(location = 1) in vec2 a_texCoord;
+layout(location = 2) in vec4 a_color;
 uniform mat3 u_matrix;
 out vec2 v_texCoord;
+out vec4 v_color;
 void main() {
-    vec3 pos = u_matrix * vec3(a_position, 1.0);
-    gl_Position = vec4(pos.xy, 0.0, 1.0);
+    gl_Position = vec4((u_matrix * vec3(a_position, 1.0)).xy, 0.0, 1.0);
     v_texCoord = a_texCoord;
+    v_color = a_color;
 }
 `;
 
 const frag = `#version 300 es
 precision highp float;
 in vec2 v_texCoord;
+in vec4 v_color;
 uniform sampler2D u_texture;
-uniform vec4 u_color;
 out vec4 outColor;
 void main() {
-    outColor = texture(u_texture, v_texCoord) * u_color;
-    //outColor = vec4(1.0, 0.0, 0.0, 1.0);
+    outColor = texture(u_texture, v_texCoord) * v_color;
 }
 `;
 
@@ -41,6 +44,8 @@ export class Renderer implements Disposable {
     private readonly matrixLocation: WebGLUniformLocation | null;
     private readonly colorLocation: WebGLUniformLocation | null;
     private readonly whiteTexture: WebGLTexture;
+
+    private batcher: Batcher;
 
     constructor(canvas?: HTMLCanvasElement) {
         this.canvas = canvas ?? document.createElement("canvas");
@@ -73,6 +78,8 @@ export class Renderer implements Disposable {
             new Uint8Array([255, 255, 255, 255]),
         );
         this.whiteTexture = white;
+
+        this.batcher = new Batcher(gl);
     }
 
     render(root: SceneNode): void {
@@ -89,25 +96,19 @@ export class Renderer implements Disposable {
 
         gl.useProgram(this.program);
         const projection = Matrix3.projection(this.canvas.width, this.canvas.height);
-        this.drawNode(root, projection);
+        gl.uniformMatrix3fv(this.matrixLocation, false, projection.data); // once, not per node
+        this.batcher.begin();
+        this.drawNode(root);
+        this.batcher.flush();
     }
 
-    private drawNode(node: SceneNode, projection: Matrix3): void {
+    private drawNode(node: SceneNode): void {
         if (!node.visible) return;
-
         if (node instanceof Mesh) {
-            const gl = this.gl;
-            const matrix = projection.multiply(node.worldMatrix);
-            node.upload(gl);
-
-            gl.uniformMatrix3fv(this.matrixLocation, false, matrix.data);
-            gl.uniform4fv(this.colorLocation, node.color);
-            gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_2D, node.texture?.texture ?? this.whiteTexture);
-
-            node.draw(gl);
+            const tex = node.texture?.texture ?? this.whiteTexture;
+            this.batcher.draw(tex, node.worldMatrix.data, node.localVertices, node.color);
         }
-        for (const c of node.children) this.drawNode(c, projection);
+        for (const c of node.children) this.drawNode(c);
     }
 
     /**

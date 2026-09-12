@@ -10,6 +10,7 @@ export abstract class Mesh extends SceneNode {
     private buffer: WebGLBuffer | null = null; // keep it or we can never free it
     private vertexCount = 0;
     private gl: WebGL2RenderingContext | null = null; // needed at disposal time
+    private cachedVertices: Float32Array | null = null;
 
     protected abstract getVertices(): Float32Array;
 
@@ -41,6 +42,15 @@ export abstract class Mesh extends SceneNode {
     public draw(gl: WebGL2RenderingContext): void {
         gl.bindVertexArray(this.vao);
         gl.drawArrays(gl.TRIANGLES, 0, this.vertexCount);
+    }
+
+    /** Local [x,y,u,v] × 6, built once and reused until invalidate(). */
+    get localVertices(): Float32Array {
+        return (this.cachedVertices ??= this.getVertices());
+    }
+
+    protected invalidate(): void {
+        this.cachedVertices = null;
     }
 
     protected override onDispose(): void {

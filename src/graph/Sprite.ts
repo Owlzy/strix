@@ -3,15 +3,20 @@ import {Matrix3, Vector2} from "../math";
 import {Texture} from "../texture";
 
 export class Sprite extends Mesh {
+    get width(): number { return this._width; }
+    set width(v: number) { this._width = v; this.invalidate(); }
+    get height(): number { return this._height; }
+    set height(v: number) { this._height = v; this.invalidate(); }
+
     public anchor: Vector2 = new Vector2();
-    public width: number;
-    public height: number;
+    private _width: number;
+    private _height: number;
 
     constructor(texture?: Texture, width?: number, height?: number) {
         super();
         this.texture = texture;
-        this.width = width ?? texture?.width ?? 100;
-        this.height = height ?? texture?.height ?? 100;
+        this._width = width ?? texture?.width ?? 100;
+        this._height = height ?? texture?.height ?? 100;
     }
 
     protected getVertices(): Float32Array {
