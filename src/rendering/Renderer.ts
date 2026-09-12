@@ -105,7 +105,7 @@ export class Renderer implements Disposable {
     private drawNode(node: SceneNode): void {
         if (!node.visible) return;
         if (node instanceof Mesh) {
-            const tex = node.texture?.texture ?? this.whiteTexture;
+            const tex = node.texture?.source ?? this.whiteTexture;
             this.batcher.draw(tex, node.worldMatrix.data, node.localVertices, node.color);
         }
         for (const c of node.children) this.drawNode(c);

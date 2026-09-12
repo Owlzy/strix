@@ -1,6 +1,8 @@
 import type { Disposable } from "../core/Disposable";
 
 export class Texture implements Disposable {
+    get source(): WebGLTexture { return this.texture; }
+    
     public readonly texture: WebGLTexture;
     public readonly ready: Promise<this>;
     public width = 1;
@@ -8,6 +10,12 @@ export class Texture implements Disposable {
     public loaded = false;
     private readonly gl: WebGL2RenderingContext;
     private disposed = false;
+
+    // UV's
+    public readonly u0 = 0;
+    public readonly v0 = 0;
+    public readonly u1 = 1;
+    public readonly v1 = 1;
 
     constructor(gl: WebGL2RenderingContext, url: string) {
         this.gl = gl;

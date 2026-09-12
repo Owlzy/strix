@@ -1,6 +1,6 @@
 import {Mesh} from "./Mesh";
 import {Matrix3, Vector2} from "../math";
-import {Texture} from "../texture";
+import type {TextureView} from "../texture";
 
 export class Sprite extends Mesh {
     get width(): number { return this._width; }
@@ -12,7 +12,7 @@ export class Sprite extends Mesh {
     private _width: number;
     private _height: number;
 
-    constructor(texture?: Texture, width?: number, height?: number) {
+    constructor(texture?: TextureView, width?: number, height?: number) {
         super();
         this.texture = texture;
         this._width = width ?? texture?.width ?? 100;
@@ -22,15 +22,11 @@ export class Sprite extends Mesh {
     protected getVertices(): Float32Array {
         const w = this.width;
         const h = this.height;
-        //   x  y    u  v
+        const t = this.texture;
+        const u0 = t?.u0 ?? 0, v0 = t?.v0 ?? 0, u1 = t?.u1 ?? 1, v1 = t?.v1 ?? 1;
         return new Float32Array([
-            0, 0, 0, 0,
-            w, 0, 1, 0,
-            0, h, 0, 1,
-
-            0, h, 0, 1,
-            w, 0, 1, 0,
-            w, h, 1, 1,
+            0, 0, u0, v0,   w, 0, u1, v0,   0, h, u0, v1,
+            0, h, u0, v1,   w, 0, u1, v0,   w, h, u1, v1,
         ]);
     }
 

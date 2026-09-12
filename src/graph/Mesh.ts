@@ -1,9 +1,9 @@
 import { SceneNode } from "./SceneNode";
-import type { Texture } from "../texture";
+import type {TextureView} from "../texture";
 
 export abstract class Mesh extends SceneNode {
     public color: [number, number, number, number] = [1, 1, 1, 1];
-    public texture?: Texture;
+    public texture?: TextureView;
 
     private uploaded = false;
     private vao: WebGLVertexArrayObject | null = null;
