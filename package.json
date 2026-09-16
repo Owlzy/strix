@@ -29,9 +29,12 @@
             "require": "./dist/strix.umd.cjs"
         }
     },
-    "files": ["dist"],
+    "sideEffects": false,
+    "files": [
+        "dist"
+    ],
     "scripts": {
-        "dev": "vite serve sample",
+        "dev": "vite",
         "build": "tsc && vite build",
         "typecheck": "tsc --noEmit",
         "format": "prettier --write .",
@@ -41,6 +44,7 @@
         "prettier": "^3.9.6",
         "typescript": "^6.0.3",
         "vite": "^8.2.2",
-        "vite-plugin-dts": "^5.1.0"
+        "vite-plugin-dts": "^5.1.0",
+        "vite-plugin-glsl": "^1.6.1"
     }
 }

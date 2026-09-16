@@ -1,14 +1,16 @@
-import {defineConfig} from "vite";
+import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
+import glsl from "vite-plugin-glsl";
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+    root: command === "serve" ? "sample" : undefined,
     build: {
         lib: {
-            entry: "src/index.ts",   // your public-API barrel
-            name: "Strix",           // global name for the UMD build
+            entry: "src/index.ts",
+            name: "Strix",
             fileName: "strix",
-            formats: ["es", "umd"],  // ESM for bundlers, UMD for <script>/CJS
+            formats: ["es", "umd"],
         },
     },
-    plugins: [dts({include: ["src"]})],  // emits .d.ts type declarations
-});
+    plugins: [dts({ include: ["src"] }), glsl()],
+}));
