@@ -1,8 +1,6 @@
-import {SceneNode} from "../../src/graph";
-import {Application} from "../../src";
+import { Application, SceneNode } from "../../src";
 
 export abstract class Scene extends SceneNode {
-
     protected app: Application;
 
     constructor(app: Application) {
@@ -10,7 +8,7 @@ export abstract class Scene extends SceneNode {
         this.app = app;
     }
 
-    update(dt: number) {
+    resize() {}
 
-    }
+    update(dt: number) {}
 }
