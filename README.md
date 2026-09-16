@@ -9,6 +9,8 @@ A lightweight 2D WebGL2 engine written in TypeScript, with **zero runtime depend
 
 Strix is a small set of building blocks for drawing moving, textured things on a canvas. It is strict, dependency-free, and written to be read. Use it for learning and small projects rather than as a production framework.
 
+**[Play the sample game](https://owlzy.github.io/strix/)** in your browser.
+
 ## Features
 
 - WebGL2 renderer with a batched draw path. Sprites that share a texture are drawn together in one call. Alpha blending is enabled, and the projection is in pixel space, so you work in screen coordinates rather than clip space.
@@ -106,7 +108,7 @@ Shaders live in `shaders/` as `.vert` and `.frag` files. A Vite plugin imports t
 
 ## Sample game
 
-`sample/` contains a small Asteroids-style game that exercises the engine: thrust movement, screen wrapping, shooting with a bullet pool, splitting asteroids, score, lives, and win and lose states. Run `npm run dev` to play it, and read it as a worked example.
+`sample/` contains a small Asteroids-style game that exercises the engine: thrust movement, screen wrapping, shooting with a bullet pool, splitting asteroids, score, lives, and win and lose states. [Play it in your browser](https://owlzy.github.io/strix/), or run `npm run dev` for it locally. Read the source as a worked example.
 
 In development the sample imports the engine from source, so editing the engine hot-reloads the game.
 
