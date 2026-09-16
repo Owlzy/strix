@@ -1,4 +1,4 @@
-import {SceneNode, Sprite, Vector2, type TextureView} from "../../src";
+import {SceneNode, Sprite, Vector2, type TextureView} from "strix";
 
 export abstract class Entity extends SceneNode {
     get radius(): number {

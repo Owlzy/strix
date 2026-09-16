@@ -1,4 +1,4 @@
-import { Application, SceneNode } from "../../src";
+import { Application, SceneNode } from "strix";
 
 export abstract class Scene extends SceneNode {
     protected app: Application;

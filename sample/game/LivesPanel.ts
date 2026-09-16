@@ -1,5 +1,4 @@
-import type {TextureView} from "../../src";
-import {SceneNode, Sprite} from "../../src";
+import {SceneNode, Sprite, type TextureView} from "strix";
 
 export class LivesPanel extends SceneNode {
     private readonly icons: Sprite[] = [];

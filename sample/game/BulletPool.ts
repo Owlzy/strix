@@ -1,5 +1,5 @@
+import { SceneNode, type TextureView } from "strix";
 import { Bullet } from "./Bullet";
-import { SceneNode, type TextureView } from "../../src";
 import type { Weapon } from "./Weapon";
 
 export class BulletPool implements Weapon {

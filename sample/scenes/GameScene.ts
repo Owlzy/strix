@@ -1,5 +1,5 @@
+import { Application, Vector2, TextLabel } from "strix";
 import { Scene } from "./Scene";
-import { Application, Vector2, TextLabel } from "../../src";
 import { Player } from "../game/Player";
 import { Asteroid, ASTEROID_SIZES, ASTEROID_TIERS, type AsteroidSize } from "../game/Asteroid";
 import { BulletPool } from "../game/BulletPool";

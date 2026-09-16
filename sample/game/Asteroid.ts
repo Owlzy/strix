@@ -1,4 +1,4 @@
-import type { TextureView } from "../../src";
+import type { TextureView } from "strix";
 import { Entity } from "./Entity";
 
 export const ASTEROID_TIERS = {

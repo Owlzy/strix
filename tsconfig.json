@@ -4,6 +4,7 @@
         // File Layout
         // "rootDir": "./src",
         // "outDir": "./dist",
+        "paths": { "strix": ["./src/index.ts"] },
 
         // Environment Settings
         // See also https://aka.ms/tsconfig/module
