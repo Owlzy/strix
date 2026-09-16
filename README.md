@@ -86,7 +86,7 @@ const sprite = new Sprite(app.assets.get("player"));
 
 For a texture atlas, use `loadAtlas` with a Free Texture Packer JSON file. Each frame is then available by name through `app.assets.get`, exactly like a loose texture.
 
-**Math**: `Vector2` and a column-major `Mat3` for 2D transforms (translate, rotate, scale, plus a pixel-to-clip projection), laid out to pass straight to WebGL uniforms.
+**Math**: `Vector2` and a column-major `Matrix3` for 2D transforms (translate, rotate, scale, plus a pixel-to-clip projection), laid out to pass straight to WebGL uniforms.
 
 ## Building
 
